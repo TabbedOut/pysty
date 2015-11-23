@@ -62,7 +62,7 @@ def process(path):
             print c
         if c.kind == COUNTEREXAMPLE:
             print ''
-            print c.corrected
+            print c.corrected,
 
 
 if __name__ == '__main__':
