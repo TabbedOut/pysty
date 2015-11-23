@@ -45,3 +45,8 @@ class MyClass(object):
         pass
 ```
 
+Snake case
+```lang=python, counterexample
+def doTheThing():
+    pass
+````
