@@ -18,7 +18,7 @@ def foo():
 ```lang=python
 def foo():
     print('Hello World')
-```
+``` 
 
 Keep lines to 79 characters or less. (This includes docstrings and sorta
 includes HTML/JavaScript.) The only exemption I can think of is URLs.
@@ -43,7 +43,7 @@ class MyClass(object):
         https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
         """
         pass
-```
+``` 
 
 Snake case
 ```lang=python, counterexample
