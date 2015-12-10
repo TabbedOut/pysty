@@ -5,7 +5,7 @@ install: ## Install requirements
 	npm install nodemon
 	pip install -r requirements.txt
 
-python:
+python: ## Format Python
 	./py2.py "README.md" > /tmp/newstyle.md
 	mv /tmp/newstyle.md "README.md"
 

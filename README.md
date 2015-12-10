@@ -45,8 +45,33 @@ class MyClass(object):
         pass
 ```
 
-Snake case
+### Snake case
+
 ```lang=python, counterexample
 def doTheThing():
     pass
+```
+
+```lang=python
+def doTheThing():
+    pass
+```
+
+### Blank lines
+
+```lang=python, counterexample
+class FooFactory(object):
+    class Meta:
+        name = 'foo'
+    bar = None
+
+class FooFighter(object):
+    def one(self):
+        pass
+    def two(self):
+        pass
+
+
+    def three(self):
+        pass
 ````
