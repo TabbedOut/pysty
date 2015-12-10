@@ -18,11 +18,7 @@ def foo():
 ```lang=python
 def foo():
     print('Hello World')
-``` 
-```lang=python
-def foo():
-    print('Hello World')
-``` 
+```
 
 Keep lines to 79 characters or less. (This includes docstrings and sorta
 includes HTML/JavaScript.) The only exemption I can think of is URLs.
@@ -47,17 +43,7 @@ class MyClass(object):
         https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
         """
         pass
-``` 
-```lang=python
-class MyClass(object):
-    def __init__(self):
-        """
-        Example init that goes on way too long to illustrate what a bad docstring looks like.
-
-        https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
-        """
-        pass
-``` 
+```
 
 Snake case
 ```lang=python, counterexample
