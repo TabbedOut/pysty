@@ -10,4 +10,4 @@ python:
 	mv /tmp/newstyle.md "README.md"
 
 watch:
-	./node_modules/.bin/nodemon --exec "$(MAKE) python" --ext md,cfg
+	./node_modules/.bin/nodemon --exec "$(MAKE) python" --ext md,cfg,py --delay 5
