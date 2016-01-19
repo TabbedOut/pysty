@@ -139,6 +139,18 @@ def test_insert_corrected_already_correct():
     assert blocks[3] == str(chunks[3])
 
 
+def test_insert_corrected_overwrite_existing_example():
+    chunks = [
+        py2.Chunk(['test']),
+        py2.Chunk(['```', 'import os', '```'], kind=py2.COUNTEREXAMPLE),
+        py2.Chunk(['']),
+        py2.Chunk(['```', 'import poop', '```'], kind=py2.CODE),
+    ]
+    blocks = list(py2.insert_corrected(chunks, force=True))
+    assert len(blocks) == 3
+    assert blocks[2] == chunks[1].corrected
+
+
 def test_process_leaves_regular_text_alone():
     original_text = 'The Knights Who Say Ni demand a sacrifice!'
     assert py2.process(original_text) == original_text

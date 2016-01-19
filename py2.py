@@ -71,17 +71,32 @@ def insert_corrected(chunks, force=False):
     """
     Make sure counterexamples are followed by an example.
 
-    If there's an existing example, re-use it (unless force=True TODO).
+    If there's an existing example, re-use it (unless force=True).
+
+    This code is kind of terrible.
 
     Returns an iterable of str.
     """
     chunks = list(chunks)
     n_chunks = len(chunks)
-    for idx, chunk in enumerate(chunks):
-        yield str(chunk)
-        if (chunk.kind == COUNTEREXAMPLE and
-                (idx > (n_chunks - 3) or chunks[idx + 2].kind != CODE)):
-            yield chunk.corrected
+    if force:
+        # Replace all counterexample/text/example with just counterexample
+        skip = 0
+        for idx, chunk in enumerate(chunks):
+            skip -= 1
+            if skip <= 0:
+                yield str(chunk)
+            if chunk.kind == COUNTEREXAMPLE:
+                yield chunk.corrected
+                if idx > (n_chunks - 3) or chunks[idx + 2].kind == CODE:
+                    skip = 3
+
+    else:
+        for idx, chunk in enumerate(chunks):
+            yield str(chunk)
+            if chunk.kind == COUNTEREXAMPLE:
+                if idx > (n_chunks - 3) or chunks[idx + 2].kind != CODE:
+                    yield chunk.corrected
 
 
 def process(original_text):
