@@ -67,9 +67,11 @@ def chunkify(lines):
     yield Chunk(current_chunk)
 
 
-def insert_corrected(chunks):
+def insert_corrected(chunks, force=False):
     """
     Make sure counterexamples are followed by an example.
+
+    If there's an existing example, re-use it (unless force=True TODO).
 
     Returns an iterable of str.
     """

@@ -131,10 +131,12 @@ def test_insert_corrected_already_correct():
         py2.Chunk(['test']),
         py2.Chunk(['```', 'import os', '```'], kind=py2.COUNTEREXAMPLE),
         py2.Chunk(['']),
-        py2.Chunk(['```', 'import os', '```'], kind=py2.CODE),
+        py2.Chunk(['```', 'import poop', '```'], kind=py2.CODE),
     ]
     blocks = list(py2.insert_corrected(chunks))
     assert len(blocks) == 4
+    # Assert code was not re-corrected
+    assert blocks[3] == str(chunks[3])
 
 
 def test_process_leaves_regular_text_alone():
