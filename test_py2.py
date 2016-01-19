@@ -85,6 +85,6 @@ def test_process_leaves_regular_text_alone():
     assert py2.process(original_text) == original_text
 
 
-# def test_process_inserts_correction():
-#     print(py2.process(TEXT))
-#     assert TARGET_TEXT in py2.process(TEXT)
+def test_process_inserts_correction():
+    print(py2.process(TEXT))
+    assert TARGET_TEXT in py2.process(TEXT)

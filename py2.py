@@ -37,7 +37,8 @@ class Chunk(object):
     def corrected(self):
         if self.kind != COUNTEREXAMPLE:
             raise TypeError('Can only correct COUNTEREXAMPLE chunks')
-        return '```lang=python\n{}```'.format(
+        # Always insert a blank line before the counterexample
+        return '\n```lang=python\n{}```'.format(
             FormatCode('\n'.join(self.lines[1:-1]))[0])
 
 
@@ -70,7 +71,7 @@ def process(original_text):
             new_text_chunks.append(str(chunk))
         if chunk.kind == COUNTEREXAMPLE:
             new_text_chunks.append(chunk.corrected)
-    return ''.join(new_text_chunks)
+    return '\n'.join(new_text_chunks)
 
 
 def main(path):
