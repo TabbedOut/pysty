@@ -5,6 +5,9 @@ install: ## Install requirements
 	npm install nodemon
 	pip install -r requirements.txt
 
+test: ## Run test suite
+	py.test -s
+
 python: ## Format Python
 	./py2.py "README.md" > /tmp/newstyle.md
 	mv /tmp/newstyle.md "README.md"

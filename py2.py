@@ -57,13 +57,13 @@ def chunkify(lines):
 
 def process(original_text):
     new_text = []
-    for c in chunkify(original_text.splitlines()):
+    for chunk in chunkify(original_text.splitlines()):
         # print '*' * 20, c.kind, '*' * 20  # DEBUG
-        if c.kind != CODE:
-            new_text.append(c)
-        if c.kind == COUNTEREXAMPLE:
+        if chunk.kind != CODE:
+            new_text.append(str(chunk))
+        if chunk.kind == COUNTEREXAMPLE:
             new_text.append('')
-            new_text.append(c.corrected)
+            new_text.append(chunk.corrected)
     return ''.join(new_text)
 
 
