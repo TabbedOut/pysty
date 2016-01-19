@@ -96,4 +96,4 @@ def main(path):
 
 
 if __name__ == '__main__':
-    process(sys.argv[1])
+    main(sys.argv[1])
