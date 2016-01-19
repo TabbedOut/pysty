@@ -37,6 +37,22 @@ import antigravity
 
 """
 
+MIXED_CODE_TEXT = """
+
+Knights of Ni, we are but simple travelers who seek the enchanter who lives
+beyond these woods.
+
+```lang=python, counterexample
+import antigravity
+```
+
+```lang=python
+import antigravity
+```
+
+
+"""
+
 
 def test_chunk_code_must_look_like_code():
     with pytest.raises(TypeError):
@@ -66,6 +82,17 @@ def test_chunkify_splits_text_into_chunks():
     assert len(list(chunks)) == 3
 
 
+def test_chunkify_splits_whitespaced_text_into_chunks():
+    chunks = list(py2.chunkify(MIXED_CODE_TEXT.splitlines()))
+    assert len(chunks) == 5
+    assert str(chunks[0]).startswith('\n\n')
+    assert str(chunks[0]).endswith('\n')
+    assert chunks[1].kind == py2.COUNTEREXAMPLE
+    assert str(chunks[2]) == ''
+    assert chunks[3].kind == py2.CODE
+    assert str(chunks[4]) == '\n'
+
+
 def test_chunkify_preserves_whitespace():
     chunks = list(py2.chunkify(TEXT.splitlines()))
 
@@ -86,5 +113,9 @@ def test_process_leaves_regular_text_alone():
 
 
 def test_process_inserts_correction():
-    print(py2.process(TEXT))
     assert TARGET_TEXT in py2.process(TEXT)
+
+
+# def test_process_a_process_is_idempotent():
+#     first_pass = py2.process(TEXT)
+#     assert py2.process(py2.process(first_pass)) == first_pass
