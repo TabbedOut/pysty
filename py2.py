@@ -37,12 +37,15 @@ class Chunk(object):
     def corrected(self):
         if self.kind != COUNTEREXAMPLE:
             raise TypeError('Can only correct COUNTEREXAMPLE chunks')
+        reformatted_code, changed = FormatCode('\n'.join(self.lines[1:-1]))
         # Always insert a blank line before the counterexample
-        return '\n```lang=python\n{}```'.format(
-            FormatCode('\n'.join(self.lines[1:-1]))[0])
+        return '\n```lang=python\n{}```'.format(reformatted_code)
 
 
 def chunkify(lines):
+    """
+    Split lines of text into text, counterexamples, and examples.
+    """
     current_kind = TEXT
     current_chunk = []
     for line in lines:
@@ -64,14 +67,24 @@ def chunkify(lines):
     yield Chunk(current_chunk)
 
 
+def insert_corrected(chunks):
+    """
+    Make sure counterexamples are followed by an example.
+
+    Returns an iterable of str.
+    """
+    chunks = list(chunks)
+    n_chunks = len(chunks)
+    for idx, chunk in enumerate(chunks):
+        yield str(chunk)
+        if (chunk.kind == COUNTEREXAMPLE and
+                (idx > (n_chunks - 3) or chunks[idx + 2].kind != CODE)):
+            yield chunk.corrected
+
+
 def process(original_text):
-    new_text_chunks = []
-    for chunk in chunkify(original_text.splitlines()):
-        if chunk.kind != CODE:
-            new_text_chunks.append(str(chunk))
-        if chunk.kind == COUNTEREXAMPLE:
-            new_text_chunks.append(chunk.corrected)
-    return '\n'.join(new_text_chunks)
+    chunks = chunkify(original_text.splitlines())
+    return '\n'.join(insert_corrected(chunks))
 
 
 def main(path):

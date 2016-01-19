@@ -107,6 +107,36 @@ def test_chunkify_preserves_whitespace():
     assert chunks[2].lines[0] == ''
 
 
+def test_insert_corrected():
+    chunks = [
+        py2.Chunk(['test']),
+        py2.Chunk(['```', 'import os', '```'], kind=py2.COUNTEREXAMPLE),
+    ]
+    blocks = list(py2.insert_corrected(chunks))
+    assert len(blocks) == 3
+
+
+def test_insert_corrected_penultimate():
+    chunks = [
+        py2.Chunk(['test']),
+        py2.Chunk(['```', 'import os', '```'], kind=py2.COUNTEREXAMPLE),
+        py2.Chunk(['end']),
+    ]
+    blocks = list(py2.insert_corrected(chunks))
+    assert len(blocks) == 4
+
+
+def test_insert_corrected_already_correct():
+    chunks = [
+        py2.Chunk(['test']),
+        py2.Chunk(['```', 'import os', '```'], kind=py2.COUNTEREXAMPLE),
+        py2.Chunk(['']),
+        py2.Chunk(['```', 'import os', '```'], kind=py2.CODE),
+    ]
+    blocks = list(py2.insert_corrected(chunks))
+    assert len(blocks) == 4
+
+
 def test_process_leaves_regular_text_alone():
     original_text = 'The Knights Who Say Ni demand a sacrifice!'
     assert py2.process(original_text) == original_text
@@ -116,6 +146,6 @@ def test_process_inserts_correction():
     assert TARGET_TEXT in py2.process(TEXT)
 
 
-# def test_process_a_process_is_idempotent():
-#     first_pass = py2.process(TEXT)
-#     assert py2.process(py2.process(first_pass)) == first_pass
+def test_process_a_process_is_idempotent():
+    first_pass = py2.process(TEXT)
+    assert py2.process(first_pass) == first_pass
