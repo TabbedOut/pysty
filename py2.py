@@ -23,12 +23,20 @@ class Chunk(object):
     def __init__(self, lines, kind=TEXT):
         self.lines = lines
         self.kind = kind
+        if kind in (CODE, COUNTEREXAMPLE):
+            try:
+                assert lines[0].startswith('```')
+                assert lines[-1] == '```'
+            except AssertionError:
+                raise TypeError('Input lines do not look like code')
 
     def __repr__(self):
         return '\n'.join(self.lines)
 
     @property
     def corrected(self):
+        if self.kind != COUNTEREXAMPLE:
+            raise TypeError('Can only correct COUNTEREXAMPLE chunks')
         return '```lang=python\n{}```'.format(
             FormatCode('\n'.join(self.lines[1:-1]))[0])
 
@@ -56,15 +64,13 @@ def chunkify(lines):
 
 
 def process(original_text):
-    new_text = []
+    new_text_chunks = []
     for chunk in chunkify(original_text.splitlines()):
-        # print '*' * 20, c.kind, '*' * 20  # DEBUG
         if chunk.kind != CODE:
-            new_text.append(str(chunk))
+            new_text_chunks.append(str(chunk))
         if chunk.kind == COUNTEREXAMPLE:
-            new_text.append('')
-            new_text.append(chunk.corrected)
-    return ''.join(new_text)
+            new_text_chunks.append(chunk.corrected)
+    return ''.join(new_text_chunks)
 
 
 def main(path):

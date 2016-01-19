@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import pytest
+
 import py2
 
 
@@ -17,11 +19,46 @@ What a strange person. Well, I got better. Look, my liege! Well, how'd you becom
 3. Camelot!
 
 ```lang=python, counterexample
-Why? Be quiet! Oh! Come and see the violence inherent in the system! Help, help, I'm being repressed!
+import antigravity
 ```
 
 Why? I don't want to talk to you no more, you empty-headed animal food trough water! I fart in your general direction! Your mother was a hamster and your father smelt of elderberries! Now leave before I am forced to taunt you a second time!
 """.strip()
+
+TARGET_TEXT = """
+
+```lang=python, counterexample
+import antigravity
+```
+
+```lang=python
+import antigravity
+```
+
+"""
+
+
+def test_chunk_code_must_look_like_code():
+    with pytest.raises(TypeError):
+        py2.Chunk(['', 'chunk', ''], kind=py2.CODE)
+
+    with pytest.raises(TypeError):
+        py2.Chunk(['```', 'chunk', ''], kind=py2.CODE)
+
+    with pytest.raises(TypeError):
+        py2.Chunk(['', 'chunk', '```'], kind=py2.CODE)
+
+
+def test_chunk_repr_preserves_whitespace():
+    chunk = py2.Chunk(['', 'chunk', ''])
+    assert str(chunk) == chunk.__repr__()
+    assert str(chunk) == '\nchunk\n'
+
+
+def test_chunk_corrected_only_works_on_code():
+    chunk = py2.Chunk(['', 'chunk', ''])
+    with pytest.raises(TypeError):
+        chunk.corrected
 
 
 def test_chunkify_splits_text_into_chunks():
@@ -46,3 +83,8 @@ def test_chunkify_preserves_whitespace():
 def test_process_leaves_regular_text_alone():
     original_text = 'The Knights Who Say Ni demand a sacrifice!'
     assert py2.process(original_text) == original_text
+
+
+# def test_process_inserts_correction():
+#     print(py2.process(TEXT))
+#     assert TARGET_TEXT in py2.process(TEXT)
