@@ -7,9 +7,12 @@ Usage: py2.py <file>
 
 Outputs to stdout
 """
+from __future__ import unicode_literals
+
 import sys
 
 from yapf.yapflib.yapf_api import FormatCode
+
 
 TEXT = 'text'
 COUNTEREXAMPLE = 'counterexample'
@@ -52,17 +55,24 @@ def chunkify(lines):
     yield Chunk(current_chunk)
 
 
-def process(path):
-    with open(path) as fh:
-        original_text = fh.read()
-
+def process(original_text):
+    new_text = []
     for c in chunkify(original_text.splitlines()):
         # print '*' * 20, c.kind, '*' * 20  # DEBUG
         if c.kind != CODE:
-            print c
+            new_text.append(c)
         if c.kind == COUNTEREXAMPLE:
-            print ''
-            print c.corrected,
+            new_text.append('')
+            new_text.append(c.corrected)
+    return ''.join(new_text)
+
+
+def main(path):
+    with open(path) as fh:
+        original_text = fh.read()
+
+    new_text = process(original_text)
+    print(new_text)
 
 
 if __name__ == '__main__':
