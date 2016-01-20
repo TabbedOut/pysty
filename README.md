@@ -36,6 +36,7 @@ class MyClass(object):
 
 ```lang=python
 class MyClass(object):
+
     def __init__(self):
         """
         Example init that goes on way too long to illustrate what a bad docstring looks like.

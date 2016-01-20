@@ -9,7 +9,7 @@ test: ## Run test suite
 	py.test -s
 
 python: ## Format Python
-	./py2.py "README.md" > /tmp/newstyle.md
+	./py2.py "README.md" --force > /tmp/newstyle.md
 	mv /tmp/newstyle.md "README.md"
 
 watch:

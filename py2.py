@@ -12,7 +12,7 @@ from __future__ import unicode_literals
 import sys
 
 from yapf.yapflib.yapf_api import FormatCode
-
+from yapf.yapflib import file_resources
 
 TEXT = 'text'
 COUNTEREXAMPLE = 'counterexample'
@@ -37,7 +37,11 @@ class Chunk(object):
     def corrected(self):
         if self.kind != COUNTEREXAMPLE:
             raise TypeError('Can only correct COUNTEREXAMPLE chunks')
-        reformatted_code, changed = FormatCode('\n'.join(self.lines[1:-1]))
+        reformatted_code, changed = FormatCode(
+            '\n'.join(self.lines[1:-1]),
+            # style_config='./setup.cfg',
+            style_config=file_resources.GetDefaultStyleForDir('.'),
+        )
         # Always insert a blank line before the counterexample
         return '\n```lang=python\n{}```'.format(reformatted_code)
 
@@ -99,18 +103,19 @@ def insert_corrected(chunks, force=False):
                     yield chunk.corrected
 
 
-def process(original_text):
+def process(original_text, force=False):
     chunks = chunkify(original_text.splitlines())
-    return '\n'.join(insert_corrected(chunks))
+    return '\n'.join(insert_corrected(chunks, force))
 
 
-def main(path):
+def main(path, force=False):
     with open(path) as fh:
         original_text = fh.read()
 
-    new_text = process(original_text)
+    new_text = process(original_text, force)
     print(new_text)
 
 
 if __name__ == '__main__':
-    main(sys.argv[1])
+    force = '--force' in sys.argv
+    main(sys.argv[1], force)
