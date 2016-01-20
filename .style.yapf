@@ -1,4 +1,11 @@
 [style]
+# https://github.com/google/yapf#id8
+# or
 # https://github.com/google/yapf/blob/master/yapf/yapflib/style.py
 based_on_style = pep8
+# split_penalty_import_names = 0
+split_penalty_import_names = 100
+dedent_closing_brackets = True
+
+# TabbedOut
 blank_line_before_nested_class_or_def = True

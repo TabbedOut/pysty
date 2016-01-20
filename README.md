@@ -53,21 +53,14 @@ class MyClass(object):
         pass
 ```
 
-### Snake case
-
-```lang=python, counterexample
-def doTheThing():
-    pass
-```
-
-```lang=python
-def doTheThing():
-    pass
-```
-
 ### Blank lines
 
 ```lang=python, counterexample
+import os
+
+
+from api import shim
+
 class FooFactory(object):
     class Meta:
         name = 'foo'
@@ -82,4 +75,126 @@ class FooFighter(object):
 
     def three(self):
         pass
-````
+```
+
+```lang=python
+import os
+
+from api import shim
+
+
+class FooFactory(object):
+
+    class Meta:
+        name = 'foo'
+
+    bar = None
+
+
+class FooFighter(object):
+
+    def one(self):
+        pass
+
+    def two(self):
+        pass
+
+    def three(self):
+        pass
+```
+Have fun!
+
+### Long imports
+
+```lang=python, counterexample
+from alphabet import a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, q, r, s, t, u, v, w, x, y, z
+from alphabet import (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, q, r, s, t, u, v, w, x, y, z)
+from alphabet import (a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, q, r, s, t, u, v, w, x, y, z,)
+```
+
+```lang=python
+from alphabet import a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, q, r, s, t, u, v, w, x, y, z
+from alphabet import (
+    a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, q, r, s, t, u, v, w, x, y, z)
+from alphabet import (a,
+                      b,
+                      c,
+                      d,
+                      e,
+                      f,
+                      g,
+                      h,
+                      i,
+                      j,
+                      k,
+                      l,
+                      m,
+                      n,
+                      o,
+                      q,
+                      r,
+                      s,
+                      t,
+                      u,
+                      v,
+                      w,
+                      x,
+                      y,
+                      z, )
+```
+
+### Blank lines between imports
+
+I'm not a fan of of how yapf removes a linebreak between the imports and code:
+
+```lang=python, counterexample
+import logging
+
+
+logger = logging.getLogger(__name__)
+class Foo(object):
+  pass
+```
+
+```lang=python
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+class Foo(object):
+    pass
+```
+
+### Braces and parens
+
+```lang=python, counterexample
+foo = {'the': 'rain', 'in': 'Spain', 'stays': 'mainly', 'on the': 'plains'}
+bar({'pack': 'my', 'box': 'with', 'five': 'dozen', 'liquor': 'jugs'}, the=quick, brown=fox)
+bar({'pack': 'my', 'box': 'with', 'five': 'dozen', 'liquor': 'jugs'},
+    the=quick, brown=fox)
+baz = {
+  'now': 'what?',
+}
+```
+
+```lang=python
+foo = {'the': 'rain', 'in': 'Spain', 'stays': 'mainly', 'on the': 'plains'}
+bar(
+    {'pack': 'my',
+     'box': 'with',
+     'five': 'dozen',
+     'liquor': 'jugs'},
+    the=quick,
+    brown=fox
+)
+bar(
+    {'pack': 'my',
+     'box': 'with',
+     'five': 'dozen',
+     'liquor': 'jugs'},
+    the=quick,
+    brown=fox
+)
+baz = {'now': 'what?', }
+```
