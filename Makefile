@@ -8,9 +8,10 @@ install: ## Install requirements
 test: ## Run test suite
 	py.test -s
 
-python: ## Format Python
+.PHONY: README.md
+README.md: ## Generate a new readme
 	./py2.py "README.md" --force > /tmp/newstyle.md
 	mv /tmp/newstyle.md "README.md"
 
 watch:
-	./node_modules/.bin/nodemon --exec "$(MAKE) python" --ext md,cfg,py --delay 5
+	./node_modules/.bin/nodemon --exec "$(MAKE) README.md" --ext md,cfg,py --delay 5
