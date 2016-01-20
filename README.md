@@ -21,7 +21,8 @@ def foo():
 ```
 
 Keep lines to 79 characters or less. (This includes docstrings and sorta
-includes HTML/JavaScript.) The only exemption I can think of is URLs.
+includes HTML/JavaScript.) The only exception is URLs that are on their own
+line, Restructured text, or Markdown.
 
 ```lang=python, counterexample
 class MyClass(object):
@@ -30,6 +31,9 @@ class MyClass(object):
         Example init that goes on way too long to illustrate what a bad docstring looks like.
 
         https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
+
+        [markdown]: https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
+        .. _rst: https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
         """
         pass
 ```
@@ -42,6 +46,9 @@ class MyClass(object):
         Example init that goes on way too long to illustrate what a bad docstring looks like.
 
         https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
+
+        [markdown]: https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
+        .. _rst: https://phab.tabbedout.com/w/development/style_guide/python/#indention-and-long-lines
         """
         pass
 ```
